@@ -2,6 +2,8 @@
 #include <stdint.h>
 #include "helper.h"
 #include "metal/i2c.h"
+#include "metal/timer.h"
+#include "metal/rtc.h"
 
 struct metal_i2c *i2c;
 uint8_t bufWrite[24];
@@ -17,6 +19,16 @@ void delay(int msec)
   uint64_t tend; 
   tend = get_cycles() + msec * 32768 / 1000;
   while (get_cycles() < tend) {}; 
+}
+
+void delayMetal(int msec){
+  unsigned long long curTime;
+  u_int64_t hz;
+  metal_timer_get_timebase_frequency(0,&hz);
+  metal_timer_get_cyclecount(0, &curTime);
+  unsigned long long waitTime = curTime + hz*(0.001 * msec);
+  while(curTime < waitTime){};
+
 }
 
 void delay_usec(int usec)

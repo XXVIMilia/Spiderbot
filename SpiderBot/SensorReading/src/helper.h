@@ -93,6 +93,7 @@ void clearBuffers();
 
 void delay(int msec);
 void delay_usec(int usec);
+void delayMetal(int msec);
 int map(int angle,int lowIn, int highIn, int lowOut, int highOut);
 void setServo(int angle,int servoNum);
 void getIMUData();
